@@ -102,6 +102,29 @@
       const shortName = path.split("/").pop();
       filenameText.textContent = "目前模型（預設）： " + shortName;
     }
+
+    viewer.addEventListener("load", () => {
+      const materialColor = "#0f6fcb"; // 你想要的顏色
+      const model = viewer.model;
+    
+      if (model && model.materials) {
+        for (const material of model.materials) {
+          material.pbrMetallicRoughness.setBaseColorFactor(
+            hexToRgba(materialColor, 1.0)
+          );
+        }
+      }
+    });
+    
+    // 將 HEX 顏色轉為 [r, g, b, a]
+    function hexToRgba(hex, alpha = 1.0) {
+      const bigint = parseInt(hex.replace("#", ""), 16);
+      const r = ((bigint >> 16) & 255) / 255;
+      const g = ((bigint >> 8) & 255) / 255;
+      const b = (bigint & 255) / 255;
+      return [r, g, b, alpha];
+    }
+
   </script>
 
 </body>
